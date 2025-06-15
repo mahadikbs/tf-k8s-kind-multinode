@@ -1,6 +1,6 @@
 resource "aws_key_pair" "my-ssh-key" {
   key_name   = "my-ssh-key"
-  public_key = file(var.public_key_path)
+  public_key = file("~/.ssh/id_rsa.pub")
 }
 
 resource "aws_security_group" "kind_sg" {
