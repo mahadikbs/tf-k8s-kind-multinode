@@ -35,7 +35,7 @@ resource "aws_instance" "kind_node" {
   key_name      = aws_key_pair.my-ssh-key.key_name
   security_groups = [aws_security_group.kind_sg.name]
 
-  user_data = file("scripts/setup-kind.sh")
+#   user_data = file("scripts/setup-kind.sh")
 
   tags = {
     Name = "Kind-cluster-1012434"
