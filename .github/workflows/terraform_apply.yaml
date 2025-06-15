@@ -62,5 +62,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $EC2_USER@$EC2_PUBLIC_IP << 'EOF'
             curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
+            chmod +x db/*
+            sh monitoring.sh  
 
           EOF
