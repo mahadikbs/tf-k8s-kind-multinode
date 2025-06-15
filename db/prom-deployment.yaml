@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: prometheus
   namespace: monitoring
-spec1:
+spec:
   selector:
     matchLabels:
       app: prometheus
