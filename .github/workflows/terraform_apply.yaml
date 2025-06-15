@@ -60,10 +60,13 @@ jobs:
 
       - name: Install Docker, Kind, and kubectl on EC2
         run: |
+          scp -i ~/.ssh/id_rsa -r db $EC2_USER@$EC2_PUBLIC_IP:/home/ec2-user/
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $EC2_USER@$EC2_PUBLIC_IP << 'EOF'
             curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
             pwd
+            ls
             chmod +x db/*
+            cd db
             sh monitoring.sh  
 
           EOF
