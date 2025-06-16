@@ -9,7 +9,7 @@ env:
 
 jobs:
   deploy:
-    name: Provision EC2 and Install Kind
+    name: Destroy cluster
     runs-on: ubuntu-latest
 
     steps:
