@@ -4,6 +4,7 @@ trigger:
       - azdo
 
 variables:
+  - group: vars
     AWS_REGION: 'us-east-1'
     EC2_USER: 'ec2-user'
     AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
@@ -34,12 +35,13 @@ steps:
 - task: Bash@3
   displayName: 'Test AWS Credentials'
   inputs:
-    awsCredentials: 'aws-service-connection'
-    regionName: 'us-east-1'
-
     targetType: 'inline'
     script: |
      aws sts get-caller-identity
+  env:
+   AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+   AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+   AWS_REGION: $(AWS_REGION)
 
 
 # - task: Bash@3
