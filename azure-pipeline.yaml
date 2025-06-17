@@ -7,14 +7,6 @@ variables:
   AWS_REGION: 'us-east-1'
   EC2_USER: 'ec2-user'
 
-
-
-env:
-  AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-  AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
-  AWS_REGION: $(AWS_REGION)
-
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -52,7 +44,10 @@ steps:
   inputs:
     targetType: 'inline'
     script: terraform init
-
+  env:
+    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+    AWS_REGION: $(AWS_REGION)
 - task: Bash@3
   displayName: 'Terraform Plan'
   inputs:
