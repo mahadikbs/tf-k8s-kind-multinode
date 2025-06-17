@@ -5,10 +5,6 @@ trigger:
 
 variables:
   - group: vars
-    AWS_REGION: 'us-east-1'
-    EC2_USER: 'ec2-user'
-    AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
-    AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)  
 
 pool:
   vmImage: 'ubuntu-latest'
