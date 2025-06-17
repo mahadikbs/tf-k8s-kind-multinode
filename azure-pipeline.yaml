@@ -1,0 +1,86 @@
+trigger:
+  branches:
+    include:
+      - azdo
+
+variables:
+  AWS_REGION: 'us-east-1'
+  EC2_USER: 'ec2-user'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+
+- task: Bash@3
+  displayName: 'Set up SSH key'
+  inputs:
+    targetType: 'inline'
+    script: |
+      mkdir -p ~/.ssh
+      echo "$(SSH_PRIVATE_KEY)" > ~/.ssh/id_rsa
+      echo "$(SSH_PUB_KEY)" > ~/.ssh/id_rsa.pub
+      chmod 600 ~/.ssh/id_rsa
+      chmod 600 ~/.ssh/id_rsa.pub
+
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '1.6.6'
+
+- task: Bash@3
+  displayName: 'Configure AWS credentials'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "[default]" > ~/.aws/credentials
+      echo "aws_access_key_id=$(AWS_ACCESS_KEY_ID)" >> ~/.aws/credentials
+      echo "aws_secret_access_key=$(AWS_SECRET_ACCESS_KEY)" >> ~/.aws/credentials
+      echo "[default]" > ~/.aws/config
+      echo "region=$(AWS_REGION)" >> ~/.aws/config
+- task: Bash@3
+  displayName: 'Terraform Init'
+  inputs:
+    targetType: 'inline'
+    script: terraform init
+
+- task: Bash@3
+  displayName: 'Terraform Plan'
+  inputs:
+    targetType: 'inline'
+    script: terraform plan -out=tfplan
+
+- task: Bash@3
+  displayName: 'Terraform Apply'
+  inputs:
+    targetType: 'inline'
+    script: |
+      terraform apply -auto-approve tfplan
+      terraform output -raw public_ip > ip.txt
+
+- task: Bash@3
+  displayName: 'Get EC2 Public IP'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "##vso[task.setvariable variable=EC2_PUBLIC_IP]$(cat ip.txt)"
+
+- task: Bash@3
+  displayName: 'Add EC2 to known_hosts'
+  inputs:
+    targetType: 'inline'
+    script: |
+      ssh-keyscan -H $(EC2_PUBLIC_IP) >> ~/.ssh/known_hosts
+
+- task: Bash@3
+  displayName: 'Install Docker, Kind, and kubectl on EC2'
+  inputs:
+    targetType: 'inline'
+    script: |
+      scp -i ~/.ssh/id_rsa -r db $EC2_USER@$(EC2_PUBLIC_IP):/home/ec2-user/
+      ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $EC2_USER@$(EC2_PUBLIC_IP) << 'EOF'
+        curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
+        chmod +x db/*
+        cd db
+        sh monitoring.sh
+      EOF
