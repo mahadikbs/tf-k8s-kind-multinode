@@ -62,9 +62,9 @@ jobs:
         run: |
           scp -i ~/.ssh/id_rsa -r db $EC2_USER@$EC2_PUBLIC_IP:/home/ec2-user/
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $EC2_USER@$EC2_PUBLIC_IP << 'EOF'
-          curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
           chmod +x db/*
           cd db
+          curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
           sh monitoring.sh  
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
