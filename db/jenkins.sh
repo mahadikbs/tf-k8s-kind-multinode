@@ -6,6 +6,7 @@ helm repo update
 helm install jenkins jenkins/jenkins \
   --namespace jenkins \
   --set controller.serviceType=NodePort
+  --set controller.service.nodePort=31492
 
 echo "This is an initial admin password for jenkins"
 
