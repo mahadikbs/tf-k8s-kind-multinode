@@ -67,5 +67,6 @@ jobs:
           curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
           sh monitoring.sh  
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          sh jenkins.sh
 
           EOF
