@@ -1,0 +1,4 @@
+controller:
+  serviceType: NodePort
+  service:
+    nodePort: 31492
