@@ -60,12 +60,14 @@ jobs:
           terraform apply -auto-approve tfplan
           terraform output -raw public_ip > ip.txt
 
+      - name: Wait for 10 seconds for EC2
+        run: sleep 10    
+
       - name: Get EC2 Public IP
         id: ec2ip
         run: |
           echo "EC2_PUBLIC_IP=$(cat ip.txt)" >> $GITHUB_ENV
           echo "$EC2_PUBLIC_IP"
-          sleep 5
           ssh-keyscan -H $EC2_PUBLIC_IP >> ~/.ssh/known_hosts
 
       - name: Install Docker, Kind, and kubectl on EC2
