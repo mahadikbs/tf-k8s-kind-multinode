@@ -44,7 +44,7 @@ jobs:
           projectBaseDir: .
           args: >
             -Dsonar.organization=my-org
-            -Dsonar.projectKey=my-Java-webapp-1012434
+            -Dsonar.projectKey=my-tf-scan-1012434
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}          
