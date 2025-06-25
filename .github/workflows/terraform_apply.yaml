@@ -59,6 +59,7 @@ jobs:
         run: |
           terraform apply -auto-approve tfplan
           terraform output -raw public_ip > ip.txt
+          cat ip.txt
 
       - name: Wait for 10 seconds for EC2
         run: sleep 10    
