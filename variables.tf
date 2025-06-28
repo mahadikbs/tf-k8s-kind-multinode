@@ -21,7 +21,7 @@ variable "ingress_rule" {
 },
 {
    from_port = 30000
-   to_port   = 90000
+   to_port   = 90090
 },
 {
    from_port = 3000
