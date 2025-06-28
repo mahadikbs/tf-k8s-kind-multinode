@@ -12,3 +12,21 @@ variable "public_key_path" {
   description = "Path to your public SSH key"
   default     = "~/.ssh/id_rsa.pub"
 }
+variable "ingress_rule" {
+   description "ingress ports"
+   default = [
+   {
+      from_port = 22
+      to_port  = 22
+},
+{
+   from_port = 30000
+   to_port   = 90000
+},
+{
+   from_port = 3000
+   to_port   = 9090
+}
+]
+}
+
