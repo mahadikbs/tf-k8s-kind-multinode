@@ -7,25 +7,14 @@ resource "aws_security_group" "kind_sg" {
   name        = "kind-sg"
   description = "Allow SSH and Kubernetes ports"
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 30000
-    to_port     = 32767
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 3000
-    to_port   = 9090
-    protocol  = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = var.ingress_rule
+    content {
+      from_port = ingress.value.from_port
+      to_port  = ingress.value.to_port
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+}
   }
 
   egress {
