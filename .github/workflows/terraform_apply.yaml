@@ -79,6 +79,6 @@ jobs:
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/helm/monitoring.sh | bash
           curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/helm/argocd.sh | bash
-          sh jenkins.sh
+          curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/helm/jenkins.sh | bash
 
           EOF
