@@ -42,7 +42,11 @@ resource "aws_instance" "kind_node" {
   key_name      = aws_key_pair.my-ssh-key.key_name
   security_groups = [aws_security_group.kind_sg.name]
 
-#   user_data = file("scripts/setup-kind.sh")
+  root_block_device {
+    volume_size = 20
+    volume_type = "gp3"
+    delete_on_termination = true
+  }
 
   tags = {
     Name = "Kind-cluster-1012434"

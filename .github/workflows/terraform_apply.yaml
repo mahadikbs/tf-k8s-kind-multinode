@@ -62,6 +62,8 @@ jobs:
           cat ip.txt
           echo "EC2_PUBLIC_IP=$(cat ip.txt)" >> $GITHUB_ENV
           echo "$EC2_PUBLIC_IP"
+          echo " wait for 15"
+          sleep 15
 
       - name: Get EC2 Public IP
         run: |
@@ -74,7 +76,8 @@ jobs:
           chmod +x db/*
           cd db
           curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/custom/kind.sh | bash
-          sh monitoring.sh  
+          curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/helm/monitoring.sh | bash
+          curl -fsSL https://raw.githubusercontent.com/mahadikbs/required-software/main/helm/argocd.sh | bash
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           sh jenkins.sh
 
