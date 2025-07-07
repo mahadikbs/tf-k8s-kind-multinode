@@ -20,13 +20,22 @@ variable "ingress_rule" {
       to_port  = 22
 },
 {
-   from_port = 30000
-   to_port   = 40000
+   from_port = 30030
+   to_port   = 30030
 },
 {
-   from_port = 3000
-   to_port   = 9090
+   from_port = 30090
+   to_port   = 30090
+},
+{
+   from_port = 30033
+   to_port   = 30033
+},
+{
+   from_port = 80
+   to_port = 80
 }
+
 ]
 }
 
