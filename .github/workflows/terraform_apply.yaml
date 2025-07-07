@@ -53,10 +53,13 @@ jobs:
         run: terraform init 
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: |
+          terraform plan -refresh-only
+          terraform plan -out=tfplan
 
       - name: Terraform Apply 
         run: |
+          terraform apply -refresh-only
           terraform apply -auto-approve tfplan
           terraform output -raw public_ip > ip.txt
           cat ip.txt
